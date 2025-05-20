@@ -12,7 +12,6 @@ const RoofPolygonSelector = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    debugger
     if (!position) {
       navigate('/map'); // Rediriger si pas de coordonnées définies
       return;
@@ -38,7 +37,6 @@ const RoofPolygonSelector = () => {
   };
 
   useEffect(() => {
-    debugger
     if (map) {
       const listener = map.addListener('click', handleMapClick);
       return () => window.google.maps.event.removeListener(listener);
@@ -46,7 +44,6 @@ const RoofPolygonSelector = () => {
   }, [map, points]);
 
   useEffect(() => {
-    debugger
     if (polygon) polygon.setMap(null); // Effacer le précédent polygon
 
     if (points.length === 4 && map) {
@@ -60,7 +57,6 @@ const RoofPolygonSelector = () => {
         map,
       });
       setPolygon(newPolygon);
-      debugger
       // Calculer la surface approximative
       const area = window.google.maps.geometry.spherical.computeArea(newPolygon.getPath());
       setSurface(area.toFixed(2));
@@ -78,21 +74,42 @@ const RoofPolygonSelector = () => {
   };
 
   return (
-    <div className="h-screen relative">
-      <div ref={mapRef} className="w-full h-full" />
 
+    <div className="flex flex-col items-center p-4">
+      <h2 className="text-xl font-bold mb-4">Cliquez sur les 4 coins de votre toiture pour définir la surface.</h2>
+      <div ref={mapRef} style={{ width: '100%', height: '80vh' }} className="w-full max-w-4xl" />
+      {/* <div ref={mapRef} className="w-full h-full" /> */}
+      {/* <p className="text-gray-600 mb-4">Cliquez sur les 4 coins de votre toiture pour définir la surface.</p> */}
       {points.length === 4 && (
-        <div className="absolute top-4 left-4 bg-white p-2 rounded shadow">
+        // <div className="absolute top-4 left-4 bg-white p-2 rounded shadow">
+        <div className='bg-white p-4 rounded shadow-md mt-4 flex flex-col items-center'>
           <p className="font-semibold">Surface estimée : {Math.round(Number(surface))} m²</p>
           <button
             onClick={handleValidate}
-            className="mt-2 bg-green-600 text-white px-4 py-2 rounded"
+            className="mt-4 bg-green-600 text-white py-2 px-6 rounded hover:bg-green-700"
           >
             Valider la surface de ma toiture
           </button>
         </div>
       )}
+
     </div>
+
+    // <div className="h-screen relative">
+    //   <div ref={mapRef} className="w-full h-full" />
+
+    //   {points.length === 4 && (
+    //     <div className="absolute top-4 left-4 bg-white p-2 rounded shadow">
+    //       <p className="font-semibold">Surface estimée : {Math.round(Number(surface))} m²</p>
+    //       <button
+    //         onClick={handleValidate}
+    //         className="mt-2 bg-green-600 text-white px-4 py-2 rounded"
+    //       >
+    //         Valider la surface de ma toiture
+    //       </button>
+    //     </div>
+    //   )}
+    // </div>
   );
 };
 

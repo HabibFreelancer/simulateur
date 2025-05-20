@@ -13,7 +13,7 @@ import { AppProvider } from './context/AppContext';
 const App = () => {
   return (
     <AppProvider>
-      <Router>
+      <Router basename="/simulateur/">
         <Routes>
           {/* Étape 1: Formulaire d'adresse */}
           <Route path="/" element={<AdresseForm />} />
