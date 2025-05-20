@@ -1,5 +1,6 @@
 // 📁 src/components/SimulationResult.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 
 const SimulationResult = () => {
@@ -12,6 +13,7 @@ const SimulationResult = () => {
   } = useAppContext();
   const [estimatedPanels, setEstimatedPanels] = useState(null);
   const [installationCost, setInstallationCost] = useState(null);
+  const navigate = useNavigate();
 
   // Calculer une estimation des panneaux en fonction de la consommation et de la surface
   useEffect(() => {
@@ -61,7 +63,7 @@ const SimulationResult = () => {
         )}
 
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => navigate('/')}
           className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
         >
           Refaire une simulation
