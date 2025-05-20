@@ -9,6 +9,7 @@ const RoofPolygonSelector = () => {
   const [map, setMap] = useState(null);
   const [points, setPoints] = useState([]);
   const [polygon, setPolygon] = useState(null);
+  const [markers, setMarkers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,9 +32,23 @@ const RoofPolygonSelector = () => {
   const handleMapClick = (event) => {
     if (points.length >= 4) return; // Limiter à 4 coins
 
-    const newPoints = [...points, { lat: event.latLng.lat(), lng: event.latLng.lng() }];
+    const newPoint = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+    const newPoints = [...points, newPoint];
     setPoints(newPoints);
     console.log('Nouveaux points:', newPoints);
+
+    // Ajouter un marqueur à l'endroit cliqué
+    const marker = new window.google.maps.Marker({
+      position: newPoint,
+      map: map,
+      label: `${newPoints.length}`,
+    });
+
+    setMarkers((prev) => [...prev, marker]);
+
+    console.log('Marqueurs:', markers);
+
+
   };
 
   useEffect(() => {
